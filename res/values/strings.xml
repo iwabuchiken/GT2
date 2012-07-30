@@ -27,5 +27,8 @@
 	    <string name="main_tv_seconds">秒</string>
 	    <string name="main_bt_start">スタート</string>
 	    <string name="main_bt_stop">ストップ</string>
-	    
+
+    <!-- alarmdialog.xml -->
+    	<string name="alarm_dialog_bt">OK</string>
+    	<string name="alarm_dialog_tv">時間です</string>
 </resources>

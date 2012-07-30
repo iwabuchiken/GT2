@@ -1,5 +1,8 @@
 package gt2.main;
 
+import gt2.listeners.ButtonOnClickListener;
+import gt2.listeners.ButtonOnTouchListener;
+import gt2.utils.Methods;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +14,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class AlarmDialog extends Activity {
@@ -18,7 +22,7 @@ public class AlarmDialog extends Activity {
 	 * Class members
 	 *******************************************************************/
 	//
-	Vibrator vib;
+	public static Vibrator vib;
 	
 	//
 	Context mContext;
@@ -33,14 +37,16 @@ public class AlarmDialog extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		/*----------------------------
 		 * Steps
-		 * 1. Set up
-		 * 2. Set alarm message
+		 * 1. super
+		 * 2. Set content
 			----------------------------*/
 		
 		super.onCreate(savedInstanceState);
 		
-		// Content view
-//		setContentView(R.layout.alarmdialog);
+		/*----------------------------
+		 * // Content view
+			----------------------------*/
+		setContentView(R.layout.alarmdialog);
 	
 		//
 		mContext = this;
@@ -48,47 +54,8 @@ public class AlarmDialog extends Activity {
 		/*----------------------------
 		 * 2. Set alarm message
 			----------------------------*/
-		//
-//		tv = (TextView) this.findViewById(R.id.textView1);
-		
-		//
-//		if (S_01_TimerActivity.alarmMessage != null) {
-//			tv.setText(S_01_TimerActivity.alarmMessage);
-//		}//if (S_01_TimerActivity.alarmMessage != null)
-//			tv.setText("时间到了!");
-		
-		// Initialize vibrator
+		// 
 		vib = (Vibrator) mContext.getSystemService(mContext.VIBRATOR_SERVICE);
-		
-		// Set listener
-//		((Activity) mContext).findViewById(R.id.button1).setOnClickListener(new OnClickListener(){
-//
-//			@Override
-//			public void onClick(View v) {
-//				// Stop ringtone
-//				if (rt != null) {
-//					//
-//					rt.stop();
-//					
-//				}//if (rt != null)
-//				
-//				// Stop vibrator
-//				vib.cancel();
-//				
-//				//
-//				S_01_TimerActivity.sb.setEnabled(true);
-//				
-//				do_before_finish(AlarmDialog.this);
-//				
-//				// Finish
-//				((Activity) mContext).finish();
-//				
-//			}//public void onClick(View v)
-//		});//((Activity) mContext).findViewById(R.id.button1).setOnClickListener()
-		
-		
-		
-		
 		
 	}//protected void onCreate(Bundle savedInstanceState)
 
@@ -100,23 +67,6 @@ public class AlarmDialog extends Activity {
 		 * 3. Set enabled => "Start"
 			----------------------------*/
 		
-//		S_01_TimerActivity.showTime(S_01_TimerActivity.timeSet * 60 * 1000);
-//		S_01_TimerActivity.showTime(S_01_TimerActivity.timeSet);
-//		S_01_TimerActivity.showTime(S_01_TimerActivity.timeSet * 60);
-		
-//		S_01_TimerActivity.timeLeft = S_01_TimerActivity.timeSet;
-		
-//		// Log
-//		Log.d("AlarmDialog.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "S_01_TimerActivity.timeSet: " + S_01_TimerActivity.timeSet);
-		
-		/*----------------------------
-		 * 3. Set enabled => "Start"
-			----------------------------*/
-//		S_01_TimerActivity.btnStart.setEnabled(true);
-		
-		
 	}//protected void do_before_finish(Activity actv)
 
 	@Override
@@ -124,58 +74,37 @@ public class AlarmDialog extends Activity {
 		/*----------------------------
 		 * Steps
 		 * 1. Super
-		 * 2. Prefs
+		 * 1-2. Set listener
+		 * 2. Vibrate
 			----------------------------*/
 		
 		// TODO 自動生成されたメソッド・スタブ
 		super.onResume();
 		
 		/*----------------------------
-		 * 2. Prefs
+		 * 1-2. Set listener
 			----------------------------*/
-		//
-		SharedPreferences prefs;
+		set_listener();
 		
-		// Get prefs
-//		prefs = this.getSharedPreferences("CountDownTimerPrefs", 0);
-		prefs = this.getSharedPreferences("CountdownTimerPrefs", 0);
-		
-		// Get string
-		String fn = prefs.getString("alarm", "");
-		
-		// Log
-		Log.d("AlarmDialog.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "fn => " + fn);
-		
-		
-		// Ringtone
-		if (fn != "") {
-			//
-			rt = RingtoneManager.getRingtone(this, Uri.parse(fn));
-		
-			// Log
-			Log.d("AlarmDialog.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", "rt => " + rt.toString());
+		/*----------------------------
+		 * 2. Vibrate
+			----------------------------*/
+		vib.vibrate(new long[]{0, 1000, 500, 1000, 500, 1000}, -1);
 			
-			
-			// Play
-			if (rt != null && !rt.isPlaying()) {
-				// Play
-				rt.play();
-				
-			}//if (rt != null && !rt.isPlaying())
-			
-		}//if (fn != "")
-		
-		// Vibrator
-		if (prefs.getBoolean("vibrator", true)) {
-			//
-			vib.vibrate(new long[]{0, 1000, 500, 1000, 500, 1000}, -1);
-			
-		}//if (prefs.getBoolean("vibrator", true))
-		
 	}//protected void onResume()
+
+	private void set_listener() {
+		/*----------------------------
+		 * 
+			----------------------------*/
+		Button bt_ok = (Button) findViewById(R.id.alarm_dialog_bt);
+		
+		bt_ok.setTag(Methods.ButtonTags.alarmdialog_bt_ok);
+		
+		bt_ok.setOnTouchListener(new ButtonOnTouchListener(this));
+		bt_ok.setOnClickListener(new ButtonOnClickListener(this));
+
+		
+	}//private void set_listener()
 
 }//public class AlarmDialog extends Activity

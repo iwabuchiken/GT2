@@ -120,10 +120,12 @@ public class GT2Activity extends Activity {
 		List<Integer> minutes = new ArrayList<Integer>();
 		List<Integer> seconds = new ArrayList<Integer>();
 		
+		minutes.add(0);
 		minutes.add(1); minutes.add(3); minutes.add(5);
 		minutes.add(10); minutes.add(15); minutes.add(20);
 		minutes.add(30); minutes.add(45); minutes.add(60);
 		
+		seconds.add(0);
 		seconds.add(10); seconds.add(20); seconds.add(30);
 		seconds.add(40); seconds.add(50);
 		

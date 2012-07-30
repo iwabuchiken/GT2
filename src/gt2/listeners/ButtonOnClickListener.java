@@ -1,4 +1,5 @@
 package gt2.listeners;
+import gt2.main.AlarmDialog;
 import gt2.main.GT2Activity;
 import gt2.utils.Methods;
 
@@ -71,6 +72,18 @@ public class ButtonOnClickListener implements OnClickListener {
 		
 		case main_bt_start://---------------------------------------------------------
 			
+			int min = (Integer) GT2Activity.sp_min.getSelectedItem();
+			int sec = (Integer) GT2Activity.sp_sec.getSelectedItem();
+			
+			if (min == 0 && sec == 0) {
+				
+				// debug
+				Toast.makeText(actv, "ŽžŠÔ‚ª‘I‘ð‚³‚ê‚Ä‚Ü‚¹‚ñ", 2000).show();
+				
+				break;
+				
+			}//if ()
+			
 			// Buttons
 			GT2Activity.bt_start.setEnabled(false);
 			GT2Activity.bt_start.setTextColor(Color.GRAY);
@@ -82,7 +95,7 @@ public class ButtonOnClickListener implements OnClickListener {
 			
 			break;
 
-		case main_bt_stop:
+		case main_bt_stop://------------------------------------------------------
 			
 			if (GT2Activity.stopButtonStatus == false && GT2Activity.timeLeft != 0) {
 				
@@ -90,7 +103,7 @@ public class ButtonOnClickListener implements OnClickListener {
 				
 				Methods.showTime(actv, GT2Activity.timeLeft);
 				
-				break;
+				break;// case main_bt_stop
 				
 			} //if (GT2Activity.stopButtonStatus == false)
 			
@@ -102,7 +115,19 @@ public class ButtonOnClickListener implements OnClickListener {
 			
 			Methods.stopTimer(actv);
 			
-			break;
+			break;// case main_bt_stop
+			
+		case alarmdialog_bt_ok://-------------------------------------------------
+			
+			AlarmDialog.vib.cancel();
+			
+			GT2Activity.bt_start.setEnabled(true);
+			GT2Activity.bt_start.setTextColor(Color.BLUE);
+			
+			actv.finish();
+			
+			break;// case alarmdialog_bt_ok
+			
 		}//switch (tag_name)
 		
 	}//public void onClick(View v)

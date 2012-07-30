@@ -86,6 +86,9 @@ public class Methods {
 	public static enum ButtonTags {
 		// main.xml
 		main_bt_start, main_bt_stop,
+		
+		// alarmdialog.xml
+		alarmdialog_bt_ok,
 
 	}//public static enum ButtonTags
 	

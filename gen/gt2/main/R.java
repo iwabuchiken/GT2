@@ -32,24 +32,31 @@ public final class R {
         public static final int spinner_check=0x7f020003;
     }
     public static final class id {
-        public static final int main_bt_patterns=0x7f070003;
-        public static final int main_bt_start=0x7f070008;
-        public static final int main_bt_stop=0x7f070009;
-        public static final int main_et_message=0x7f070002;
-        public static final int main_sp_minutes=0x7f070005;
-        public static final int main_sp_seconds=0x7f070007;
-        public static final int main_tv_message=0x7f070001;
-        public static final int main_tv_minutes=0x7f070004;
-        public static final int main_tv_seconds=0x7f070006;
-        public static final int main_tv_time=0x7f070000;
+        public static final int alarm_dialog_bt=0x7f070001;
+        public static final int alarm_dialog_tv=0x7f070000;
+        public static final int main_bt_patterns=0x7f070005;
+        public static final int main_bt_start=0x7f07000a;
+        public static final int main_bt_stop=0x7f07000b;
+        public static final int main_et_message=0x7f070004;
+        public static final int main_sp_minutes=0x7f070007;
+        public static final int main_sp_seconds=0x7f070009;
+        public static final int main_tv_message=0x7f070003;
+        public static final int main_tv_minutes=0x7f070006;
+        public static final int main_tv_seconds=0x7f070008;
+        public static final int main_tv_time=0x7f070002;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int spinner_dropdown=0x7f030001;
-        public static final int spinner_dropdown_row=0x7f030002;
-        public static final int spinner_row=0x7f030003;
+        public static final int alarmdialog=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int spinner_dropdown=0x7f030002;
+        public static final int spinner_dropdown_row=0x7f030003;
+        public static final int spinner_row=0x7f030004;
     }
     public static final class string {
+        /**  alarmdialog.xml 
+         */
+        public static final int alarm_dialog_bt=0x7f050013;
+        public static final int alarm_dialog_tv=0x7f050014;
         public static final int app_name=0x7f050001;
         public static final int generic_bt_cancel=0x7f050008;
         /**  Generic items 
