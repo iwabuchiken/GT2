@@ -6,6 +6,7 @@ import java.io.File;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
@@ -70,6 +71,12 @@ public class ButtonOnClickListener implements OnClickListener {
 		
 		case main_bt_start://---------------------------------------------------------
 			
+			// Buttons
+			GT2Activity.bt_start.setEnabled(false);
+			GT2Activity.bt_start.setTextColor(Color.GRAY);
+			
+			GT2Activity.bt_stop.setEnabled(true);
+			
 //			Methods.startTimer(actv);
 			Methods.startTimerService(actv);
 			
@@ -87,6 +94,11 @@ public class ButtonOnClickListener implements OnClickListener {
 				
 			} //if (GT2Activity.stopButtonStatus == false)
 			
+			// Buttons
+			GT2Activity.bt_start.setEnabled(true);
+			GT2Activity.bt_start.setTextColor(Color.BLUE);
+			
+			GT2Activity.bt_stop.setEnabled(true);
 			
 			Methods.stopTimer(actv);
 			

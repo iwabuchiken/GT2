@@ -23,6 +23,9 @@ public class GT2Activity extends Activity {
 	public static int timeSet = -1;
 
 	public static TextView tv_time;
+	public static Button bt_start;
+	public static Button bt_stop; 
+	
 	public static Spinner sp_min;
 	public static Spinner sp_sec;
 	
@@ -75,7 +78,7 @@ public class GT2Activity extends Activity {
 		 * 1. "Start"
 		 * 2. "Stop"
 			----------------------------*/
-		Button bt_start = (Button) findViewById(R.id.main_bt_start);
+		bt_start = (Button) findViewById(R.id.main_bt_start);
 		
 		bt_start.setTag(Methods.ButtonTags.main_bt_start);
 		
@@ -85,7 +88,7 @@ public class GT2Activity extends Activity {
 		/*----------------------------
 		 * 2. "Stop"
 			----------------------------*/
-		Button bt_stop = (Button) findViewById(R.id.main_bt_stop);
+		bt_stop = (Button) findViewById(R.id.main_bt_stop);
 		
 		bt_stop.setTag(Methods.ButtonTags.main_bt_stop);
 		
