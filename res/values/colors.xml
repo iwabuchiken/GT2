@@ -1,0 +1,22 @@
+
+<resources>
+<!-- Source=http://www.somacon.com/p142.php -->
+<!-- main.xml -->
+	<color name="white">#ffffff</color>
+	<color name="black">#000000</color>
+	
+	<color name="blue1">#0000EE</color>
+	
+	<color name="darkgreen">#006400</color>
+	<color name="green4">#008B00</color>
+	
+	<color name="darkolivegreen4">#6E8B3D</color>
+	<color name="purple4">#551A8B</color>
+	
+	<color name="gold2">#EEC900</color>
+	
+	<color name="red">#ff0000</color>
+	<color name="yello">#ffff00</color>
+	
+<!-- /main.xml -->
+</resources>
