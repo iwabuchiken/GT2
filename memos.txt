@@ -13,6 +13,8 @@ g init
 g a .
 gitk
 
+g p origin master
+
 git log --grep=B4 -3
 git log --grep=B5 -3
 

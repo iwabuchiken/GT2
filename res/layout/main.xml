@@ -7,21 +7,27 @@
     <TextView
         android:id="@+id/main_tv_time"
         
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         
         android:layout_gravity="center"
 
-		android:layout_marginTop="5dp"
-		android:layout_marginBottom="5dp"
+		android:layout_marginTop="40dp"
+		android:layout_marginBottom="20dp"
 		android:layout_marginLeft="5dp"
 		android:layout_marginRight="5dp"
 		
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp"
         
         android:gravity="center"
         
         android:text="@string/main_tv_time"
-        android:textSize="50dp"
+        android:textSize="70dp"
+        android:textColor="@color/blue1"
+        
+        android:background="@color/white"
+        
         />
 
     <TextView
@@ -52,18 +58,22 @@
         <EditText
             android:id="@+id/main_et_message"
             
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
-
+            
 			android:layout_marginTop="5dp"
 			android:layout_marginBottom="5dp"
-			android:layout_marginLeft="5dp"
+			android:layout_marginLeft="20dp"
 			android:layout_marginRight="5dp"
 
             
             android:layout_weight="1"
             
-            android:ems="10" >
+            android:textSize="25dp" 
+            android:lines="2"
+            
+            android:gravity="top|left"
+            >
 
             <requestFocus />
         </EditText>
@@ -74,10 +84,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             
-            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             
-            android:text="@string/main_bt_patterns" 
-            android:textSize="25dp"
+            android:layout_gravity="center_vertical"
+            
+            android:text="@string/main_bt_patterns"
+            android:textSize="25dp" 
             
             />
 
@@ -94,6 +109,8 @@
 		android:layout_marginLeft="5dp"
 		android:layout_marginRight="5dp"
         
+        android:gravity="center"
+        
         
         >
 
@@ -105,6 +122,12 @@
             android:layout_gravity="center"
             
             android:layout_weight="1"
+            
+            android:gravity="center"
+            
+            android:background="@color/darkgreen"
+            
+            
             >
 
             <TextView
@@ -127,10 +150,8 @@
             <Spinner
                 android:id="@+id/main_sp_minutes"
                 
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content" 
-                
-                android:minWidth="200dp"
                 
                 />
 
@@ -144,6 +165,10 @@
             android:layout_gravity="center"
             
             android:layout_weight="1"
+            
+            android:gravity="center"
+            
+            android:background="@color/green4"
             
             >
 
@@ -166,8 +191,11 @@
 
             <Spinner
                 android:id="@+id/main_sp_seconds"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" 
+                
+                />
         </LinearLayout>
 
     </LinearLayout>
@@ -183,7 +211,7 @@
 		android:layout_marginLeft="5dp"
 		android:layout_marginRight="5dp"
         
-        
+        android:background="@color/gold2"
         >
 
         <Button
