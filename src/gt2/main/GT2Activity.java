@@ -1,33 +1,104 @@
 package gt2.main;
 
+import gt2.listeners.ButtonOnClickListener;
+import gt2.listeners.ButtonOnTouchListener;
+import gt2.utils.Methods;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class GT2Activity extends Activity {
+	
+	// Time
+	public static int timeLeft = 0;
+
+	// Time set
+	public static int timeSet = -1;
+
+	public static TextView tv_time;
+	public static Spinner sp_min;
+	public static Spinner sp_sec;
+	
+	// Activity
+	public static Activity gt2Activity;
+	
+	//
+	public static boolean stopButtonStatus = false;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	/*----------------------------
 		 * 1. super
 		 * 2. Set content
+		 * 2-1. Set activity
 		 * 3. Spinner
-		 * 4. Listeners
+		 * 4. Set up views
+		 * 5. Listeners
 			----------------------------*/
 		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
         /*----------------------------
+		 * 2-1. Set activity
+			----------------------------*/
+        gt2Activity = this;
+        
+        /*----------------------------
 		 * 3. Spinner
 			----------------------------*/
         setup_spinner();
+        
+        /*----------------------------
+		 * 4. Set up views => tv_time
+			----------------------------*/
+		setup_views();
+		
+		/*----------------------------
+		 * 5. Listeners
+			----------------------------*/
+		set_listeners();
+		
 		
     }//public void onCreate(Bundle savedInstanceState)
+
+	private void set_listeners() {
+		/*----------------------------
+		 * 1. "Start"
+		 * 2. "Stop"
+			----------------------------*/
+		Button bt_start = (Button) findViewById(R.id.main_bt_start);
+		
+		bt_start.setTag(Methods.ButtonTags.main_bt_start);
+		
+		bt_start.setOnTouchListener(new ButtonOnTouchListener(this));
+		bt_start.setOnClickListener(new ButtonOnClickListener(this));
+		
+		/*----------------------------
+		 * 2. "Stop"
+			----------------------------*/
+		Button bt_stop = (Button) findViewById(R.id.main_bt_stop);
+		
+		bt_stop.setTag(Methods.ButtonTags.main_bt_stop);
+		
+		bt_stop.setOnTouchListener(new ButtonOnTouchListener(this));
+		bt_stop.setOnClickListener(new ButtonOnClickListener(this));
+		
+		
+	}//private void set_listeners()
+
+	private void setup_views() {
+		// TODO 自動生成されたメソッド・スタブ
+		tv_time = (TextView) this.findViewById(R.id.main_tv_time);
+	}
 
 	private void setup_spinner() {
 		/*----------------------------
@@ -37,8 +108,8 @@ public class GT2Activity extends Activity {
 		/*----------------------------
 		 * 1. Get spinners
 			----------------------------*/
-		Spinner sp_min = (Spinner) findViewById(R.id.main_sp_minutes);
-		Spinner sp_sec = (Spinner) findViewById(R.id.main_sp_seconds);
+		sp_min = (Spinner) findViewById(R.id.main_sp_minutes);
+		sp_sec = (Spinner) findViewById(R.id.main_sp_seconds);
 		
 		/*----------------------------
 		 * 2. Get lists
@@ -83,5 +154,6 @@ public class GT2Activity extends Activity {
 		sp_sec.setAdapter(adapterSec);
 		
 	}//private void setup_spinner()
-    
+
+
 }

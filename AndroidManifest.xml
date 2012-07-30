@@ -5,6 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="10" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:icon="@drawable/gt_project_50x50"
@@ -18,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="gt2.main.TimerService"></service>
     </application>
 
 </manifest>

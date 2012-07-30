@@ -3,7 +3,10 @@ package gt2.utils;
 import gt2.listeners.DialogButtonOnClickListener;
 import gt2.listeners.DialogButtonOnTouchListener;
 
+import gt2.main.AlarmDialog;
+import gt2.main.GT2Activity;
 import gt2.main.R;
+import gt2.main.TimerService;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +14,7 @@ import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -26,6 +30,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -34,6 +39,7 @@ import android.database.sqlite.SQLiteException;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
+import android.os.PowerManager.WakeLock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
@@ -46,6 +52,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,26 +80,13 @@ public class Methods {
 		// Generics
 		dlg_generic_dismiss, dlg_generic_dismiss_second_dialog,
 		
-		// dlg_item_menu.xml
-		dlg_item_menu,
-
-		// dlg_add_memos.xml
-		dlg_add_memos, dlg_add_memos_add, dlg_add_memos_gv,
-
-		// dlg_register_patterns.xml
-		dlg_register_patterns, dlg_register_patterns_register,
-		
 		
 	}//public static enum DialogTags
 	
 	public static enum ButtonTags {
 		// main.xml
-		main_bt_play, main_bt_pause, main_bt_rec,
+		main_bt_start, main_bt_stop,
 
-		// internet_actv.xml
-		internet_actv, internet_actv_bt_post, internet_actv_bt_post_json,
-		internet_actv_bt_post_json_async,
-		
 	}//public static enum ButtonTags
 	
 	public static enum ItemTags {
@@ -1280,4 +1274,184 @@ public class Methods {
 		
 	}//public static boolean test_postDataToRemote_json_with_params(Activity actv)
 
+	public static void showAlarm(Activity actv) {
+			/*************************
+			 * Steps
+			 * 1. GT2Activity.stopButtonStatus => false
+			 * 2. Stop service
+			 * 3. Start alarm
+			 *************************/
+			/*----------------------------
+			 * 1. GT2Activity.stopButtonStatus => false
+				----------------------------*/
+			GT2Activity.stopButtonStatus = false;
+			
+			// Log
+			Log.d("Methods.java"
+					+ "["
+					+ Thread.currentThread().getStackTrace()[2]
+							.getLineNumber() + "]", 
+						"GT2Activity.stopButtonStatus: " + GT2Activity.stopButtonStatus);
+			
+			/*----------------------------
+			 * 2. Stop service
+				----------------------------*/
+		
+			// Stop the service
+			Intent i = new Intent(actv, TimerService.class);
+			actv.stopService(i);
+			// New intent
+			
+			/*----------------------------
+			 * 3. Start alarm
+				----------------------------*/
+			i = new Intent(actv, AlarmDialog.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			// Start
+			actv.startActivity(i);
+		  
+		}//  void showAlarm( )
+
+	public static void countdown(Activity actv, int counter) {
+		/*----------------------------
+		 * 1. showTime()
+			----------------------------*/
+		Methods.showTime(actv, counter);
+		
+		GT2Activity.timeLeft = counter;
+		
+	}//public static void countdown(int counter)
+
+	/****************************************
+	 *	showTime(Activity actv, int counter)
+	 * 
+	 * <Caller> 
+	 * 1. Methods.countdown(counter)
+	 * 
+	 * <Desc> 
+	 * 1. "counter" is of seconds, so, you need to multiply the variable
+	 * 			by 1000, getting the time in mill seconds
+	 * 
+	 * <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
+	public static void showTime(Activity actv, int counter) {
+		/*----------------------------
+		 * 1. 
+			----------------------------*/
+		// Format
+		SimpleDateFormat form = new SimpleDateFormat("mm:ss");
+		
+		GT2Activity.tv_time.setText(form.format(counter * 1000));
+		
+	}//public static void showTime(int counter)
+
+	public static void startTimerService(Context con) {
+		/*----------------------------
+		 * 1. Get time
+		 * 2. GT2Activity.stopButtonStatus => true
+		 * 3. Start service
+			----------------------------*/
+//		Spinner sp_min = (Spinner) actv.findViewById(R.id.main_sp_minutes);
+//		Spinner sp_sec = (Spinner) actv.findViewById(R.id.main_sp_seconds);
+		
+		
+//		int min = Integer.parseInt((String) sp_min.getSelectedItem());
+//		int sec = Integer.parseInt((String) sp_sec.getSelectedItem());
+		
+		if (GT2Activity.timeLeft == 0) {
+
+			int min = (Integer) GT2Activity.sp_min.getSelectedItem();
+			int sec = (Integer) GT2Activity.sp_sec.getSelectedItem();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "min: " + min + " / " + "sec: " + sec);
+			
+			GT2Activity.timeLeft = min * 60 + sec;
+			
+		} else {//if (GT2Activity.timeLeft == 0)
+
+		}//if (GT2Activity.timeLeft == 0)
+		
+		/*----------------------------
+		 * 2. GT2Activity.stopButtonStatus => true
+			----------------------------*/
+		GT2Activity.stopButtonStatus = true;
+		
+		// Log
+		Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+						.getLineNumber() + "]", 
+				"GT2Activity.stopButtonStatus: " + GT2Activity.stopButtonStatus);
+
+		/*----------------------------
+		 * 3. Start service
+			----------------------------*/
+		Intent i = new Intent(con, TimerService.class);
+
+		//
+		i.putExtra("counter", GT2Activity.timeLeft);
+		
+		
+		//
+		con.startService(i);
+		
+	}//public static void startTimerService(Activity actv)
+
+	public static void stopTimer(Activity actv) {
+		
+		GT2Activity.stopButtonStatus = false;
+		
+		//
+		Intent i = new Intent(actv, TimerService.class);
+		
+		//
+		actv.stopService(i);
+
+		// debug
+		Toast.makeText(actv, "Service stopped", 2000).show();
+		
+	}//public static void stopTimer(Activity actv)
+
+	public static void startTimer(Context mContext, Timer timer, WakeLock wl, int counter) {
+		/*************************
+		 * Steps
+		 * 1. 
+		 *************************/
+		//
+//		if (timer != null) {
+//			timer.cancel();
+//		}//if (timer != null)
+		
+		//
+//		timer = new Timer();
+		
+		// Handler
+		final android.os.Handler handler = new android.os.Handler();
+		
+		// Log
+		Log.d("TimerService.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "Staring schedule ...");
+		
+		// Thread
+		timer.schedule(new CustomTimerTask(GT2Activity.gt2Activity, handler, wl, timer, counter),
+//		timer.schedule(new CustomTimerTask(mContext, handler, wl, timer, counter),
+				0, 1000
+			);//timer.schedule()
+		
+	}//public static void startTimer(Context mContext)
+
 }//public class Methods
+
+//// Log
+//Log.d("Methods.java"
+//		+ "["
+//		+ Thread.currentThread().getStackTrace()[2]
+//				.getLineNumber() + "]", "Removed => " + path);

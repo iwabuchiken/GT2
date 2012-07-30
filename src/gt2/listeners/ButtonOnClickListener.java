@@ -1,4 +1,7 @@
 package gt2.listeners;
+import gt2.main.GT2Activity;
+import gt2.utils.Methods;
+
 import java.io.File;
 
 import android.app.Activity;
@@ -57,16 +60,38 @@ public class ButtonOnClickListener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-//		//
-//		Methods.ButtonTags tag_name = (Methods.ButtonTags) v.getTag();
-//
-//		vib.vibrate(Methods.vibLength_click);
+		//
+		Methods.ButtonTags tag_name = (Methods.ButtonTags) v.getTag();
+
+		vib.vibrate(Methods.vibLength_click);
 		
 		//
-//		switch (tag_name) {
-//		case main_bt_play://---------------------------------------------------------
+		switch (tag_name) {
 		
-//		}//switch (tag_name)
+		case main_bt_start://---------------------------------------------------------
+			
+//			Methods.startTimer(actv);
+			Methods.startTimerService(actv);
+			
+			break;
+
+		case main_bt_stop:
+			
+			if (GT2Activity.stopButtonStatus == false && GT2Activity.timeLeft != 0) {
+				
+				GT2Activity.timeLeft = 0;
+				
+				Methods.showTime(actv, GT2Activity.timeLeft);
+				
+				break;
+				
+			} //if (GT2Activity.stopButtonStatus == false)
+			
+			
+			Methods.stopTimer(actv);
+			
+			break;
+		}//switch (tag_name)
 		
 	}//public void onClick(View v)
 
