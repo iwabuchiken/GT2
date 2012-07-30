@@ -1277,43 +1277,61 @@ public class Methods {
 		
 	}//public static boolean test_postDataToRemote_json_with_params(Activity actv)
 
+	/****************************************
+	 *	CustomTimerTask.run()
+	 * 
+	 * <Caller> 
+	 * 1. 
+	 * 
+	 * <Desc> 1. <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
 	public static void showAlarm(Activity actv) {
-			/*************************
-			 * Steps
-			 * 1. GT2Activity.stopButtonStatus => false
-			 * 2. Stop service
-			 * 3. Start alarm
-			 *************************/
-			/*----------------------------
-			 * 1. GT2Activity.stopButtonStatus => false
-				----------------------------*/
-			GT2Activity.stopButtonStatus = false;
-			
-			// Log
-			Log.d("Methods.java"
-					+ "["
-					+ Thread.currentThread().getStackTrace()[2]
-							.getLineNumber() + "]", 
-						"GT2Activity.stopButtonStatus: " + GT2Activity.stopButtonStatus);
-			
-			/*----------------------------
-			 * 2. Stop service
-				----------------------------*/
+		/*************************
+		 * Steps
+		 * 1. GT2Activity.stopButtonStatus => false
+		 * 2. Stop service
+		 * 3. Start alarm
+		 *************************/
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "actv.getClass().getName(): " + actv.getClass().getName());
 		
-			// Stop the service
-			Intent i = new Intent(actv, TimerService.class);
-			actv.stopService(i);
-			// New intent
-			
-			/*----------------------------
-			 * 3. Start alarm
-				----------------------------*/
-			i = new Intent(actv, AlarmDialog.class);
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			// Start
-			actv.startActivity(i);
-		  
-		}//  void showAlarm( )
+	
+		/*----------------------------
+		 * 1. GT2Activity.stopButtonStatus => false
+			----------------------------*/
+		GT2Activity.stopButtonStatus = false;
+		
+		// Log
+		Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+						.getLineNumber() + "]", 
+					"GT2Activity.stopButtonStatus: " + GT2Activity.stopButtonStatus);
+		
+		/*----------------------------
+		 * 2. Stop service
+			----------------------------*/
+	
+		// Stop the service
+		Intent i = new Intent(actv, TimerService.class);
+		actv.stopService(i);
+		// New intent
+		
+		/*----------------------------
+		 * 3. Start alarm
+			----------------------------*/
+		i = new Intent(actv, AlarmDialog.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// Start
+		actv.startActivity(i);
+	  
+	}//  void showAlarm( )
 
 	public static void countdown(Activity actv, int counter) {
 		/*----------------------------
@@ -1356,6 +1374,9 @@ public class Methods {
 		/*----------------------------
 		 * 1. Get time
 		 * 2. GT2Activity.stopButtonStatus => true
+		 * 
+		 * 2-1. Set value to timeSet
+		 * 
 		 * 3. Start service
 			----------------------------*/
 //		Spinner sp_min = (Spinner) actv.findViewById(R.id.main_sp_minutes);
@@ -1393,6 +1414,11 @@ public class Methods {
 						.getLineNumber() + "]", 
 				"GT2Activity.stopButtonStatus: " + GT2Activity.stopButtonStatus);
 
+		/*----------------------------
+		 * 2-1. Set value to timeSet
+			----------------------------*/
+		GT2Activity.timeSet = GT2Activity.timeLeft;
+		
 		/*----------------------------
 		 * 3. Start service
 			----------------------------*/

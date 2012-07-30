@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -34,6 +35,9 @@ public class GT2Activity extends Activity {
 	
 	//
 	public static boolean stopButtonStatus = false;
+
+	public static int[] min_items = {0, 1, 3, 5, 10, 15, 20, 30, 45, 60, 90};
+	public static int[] sec_items = {0, 10, 20, 30, 40, 50};
 	
     /** Called when the activity is first created. */
     @Override
@@ -120,14 +124,26 @@ public class GT2Activity extends Activity {
 		List<Integer> minutes = new ArrayList<Integer>();
 		List<Integer> seconds = new ArrayList<Integer>();
 		
-		minutes.add(0);
-		minutes.add(1); minutes.add(3); minutes.add(5);
-		minutes.add(10); minutes.add(15); minutes.add(20);
-		minutes.add(30); minutes.add(45); minutes.add(60);
+		for (int i = 0; i < min_items.length; i++) {
+			
+			minutes.add(min_items[i]);
+			
+		}//for (int i = 0; i < min_items.length; i++)
 		
-		seconds.add(0);
-		seconds.add(10); seconds.add(20); seconds.add(30);
-		seconds.add(40); seconds.add(50);
+//		minutes.add(0);
+//		minutes.add(1); minutes.add(3); minutes.add(5);
+//		minutes.add(10); minutes.add(15); minutes.add(20);
+//		minutes.add(30); minutes.add(45); minutes.add(60);
+		
+		for (int i = 0; i < sec_items.length; i++) {
+			
+			seconds.add(sec_items[i]);
+			
+		}//for (int i = 0; i < min_items.length; i++)
+
+//		seconds.add(0);
+//		seconds.add(10); seconds.add(20); seconds.add(30);
+//		seconds.add(40); seconds.add(50);
 		
 		/*----------------------------
 		 * 3. Setup adapters
@@ -157,8 +173,31 @@ public class GT2Activity extends Activity {
 			----------------------------*/
 		sp_min.setAdapter(adapterMin);
 		sp_sec.setAdapter(adapterSec);
+
+//		sp_min.setSelection(3);
 		
 	}//private void setup_spinner()
 
+	@Override
+	protected void onStart() {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onStart();
+		
+//		/*----------------------------
+//		 * 1. AlarmDialog # TextView
+//			----------------------------*/
+//		if (AlarmDialog.tv != null) {
+//		
+//			AlarmDialog.tv.setText(this.getString(R.string.alarm_dialog_tv));
+//			
+//		}//if (AlarmDialog.tv != null)
+//		
+//		
+//		// Log
+//		Log.d("GT2Activity.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "onStart");
+		
 
+	}//protected void onStart()
 }

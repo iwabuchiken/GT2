@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class AlarmDialog extends Activity {
@@ -30,8 +31,8 @@ public class AlarmDialog extends Activity {
 	//
 	Ringtone rt;
 	
-	//
-	TextView tv;
+	// alarmdialog.xml : TextView
+	public static TextView tv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class AlarmDialog extends Activity {
 		 * Steps
 		 * 1. Super
 		 * 1-2. Set listener
+		 * 1-3. Set message
 		 * 2. Vibrate
 			----------------------------*/
 		
@@ -85,6 +87,42 @@ public class AlarmDialog extends Activity {
 		 * 1-2. Set listener
 			----------------------------*/
 		set_listener();
+		
+		/*----------------------------
+		 * 1-3. Set message
+			----------------------------*/
+		// main.xml : EditText
+		EditText et = (EditText) GT2Activity.gt2Activity.findViewById(R.id.main_et_message);
+		
+		String message = et.getText().toString();
+		
+		// Log
+		Log.d("AlarmDialog.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "message: " + message);
+		
+		Log.d("AlarmDialog.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "GT2Activity.timeSet: " + GT2Activity.timeSet);
+
+		// alarmdialog.xml : TextView
+		tv = (TextView) findViewById(R.id.alarm_dialog_tv);
+		
+		String tv_text = tv.getText().toString();
+		
+		if (message.length() < 1) {
+
+			tv_text += " : " + GT2Activity.timeSet;
+			
+		} else {//if (condition)
+			
+			tv_text = message + " : " + GT2Activity.timeSet;
+			
+		}//if (condition)
+		
+		
+		tv.setText(tv_text);
+		
 		
 		/*----------------------------
 		 * 2. Vibrate

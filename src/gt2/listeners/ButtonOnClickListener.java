@@ -1,9 +1,13 @@
 package gt2.listeners;
+
 import gt2.main.AlarmDialog;
 import gt2.main.GT2Activity;
 import gt2.utils.Methods;
 
+import gt2.main.R;
+
 import java.io.File;
+
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -71,6 +75,11 @@ public class ButtonOnClickListener implements OnClickListener {
 		switch (tag_name) {
 		
 		case main_bt_start://---------------------------------------------------------
+			/*----------------------------
+			 * 1. Get time
+			 * 2. "Start" button => set up
+			 * 3. Reset TextView if the message view is empty
+				----------------------------*/
 			
 			int min = (Integer) GT2Activity.sp_min.getSelectedItem();
 			int sec = (Integer) GT2Activity.sp_sec.getSelectedItem();
@@ -89,6 +98,18 @@ public class ButtonOnClickListener implements OnClickListener {
 			GT2Activity.bt_start.setTextColor(Color.GRAY);
 			
 			GT2Activity.bt_stop.setEnabled(true);
+			
+			/*----------------------------
+			 * 3. Reset TextView if the message view is empty
+				----------------------------*/
+			EditText et = (EditText) actv.findViewById(R.id.main_et_message);
+			
+			
+			if (et.getText().toString().equals("")) {
+			
+				AlarmDialog.tv.setText(actv.getString(R.string.alarm_dialog_tv));
+				
+			}//if (AlarmDialog.tv != null)
 			
 //			Methods.startTimer(actv);
 			Methods.startTimerService(actv);
@@ -118,13 +139,27 @@ public class ButtonOnClickListener implements OnClickListener {
 			break;// case main_bt_stop
 			
 		case alarmdialog_bt_ok://-------------------------------------------------
+			/*----------------------------
+			 * 1. Vibrate => Cancel
+			 * 2. "Start" button
+			 * 3. AlarmDialog # TextView
+			 * 4. Finish activity => AlarmDialog
+				----------------------------*/
 			
 			AlarmDialog.vib.cancel();
 			
 			GT2Activity.bt_start.setEnabled(true);
 			GT2Activity.bt_start.setTextColor(Color.BLUE);
 			
+			/*----------------------------
+			 * 4. Finish activity => AlarmDialog
+				----------------------------*/
 			actv.finish();
+			
+//			/*----------------------------
+//			 * 3. AlarmDialog # TextView
+//				----------------------------*/
+//			AlarmDialog.tv.setText(actv.getString(R.string.alarm_dialog_tv));
 			
 			break;// case alarmdialog_bt_ok
 			
