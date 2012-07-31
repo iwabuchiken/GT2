@@ -71,6 +71,7 @@ public class GT2Activity extends Activity {
 		 * 4. Set up views
 		 * 5. Listeners
 		 * 5-2. Vibrator
+
 		 * 6. Database setup
 			----------------------------*/
 		
@@ -107,7 +108,6 @@ public class GT2Activity extends Activity {
 			----------------------------*/
 //		setup_database();
 		
-		
     }//public void onCreate(Bundle savedInstanceState)
 
 	private void setup_database() {
@@ -115,7 +115,7 @@ public class GT2Activity extends Activity {
 		 * 1. Get db
 		 * 2. Create a table
 		 * 3. Query
-		 * 
+
 		 * 9. Close db
 			----------------------------*/
 		DBUtils dbu = new DBUtils(this, DBUtils.dbName);
