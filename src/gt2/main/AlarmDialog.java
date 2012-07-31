@@ -112,11 +112,16 @@ public class AlarmDialog extends Activity {
 		
 		if (message.length() < 1) {
 
-			tv_text += " : " + GT2Activity.timeSet;
+//			tv_text += " : " + GT2Activity.timeSet;
+			tv_text = this.getString(R.string.alarm_dialog_tv) + " :: " + 
+							Methods.convert_millSeconds2digitsLabel(GT2Activity.timeSet * 1000);
+			
 			
 		} else {//if (condition)
 			
-			tv_text = message + " : " + GT2Activity.timeSet;
+//			tv_text = message + " : " + GT2Activity.timeSet;
+			tv_text = message + " :: " + 
+					Methods.convert_millSeconds2digitsLabel(GT2Activity.timeSet * 1000);
 			
 		}//if (condition)
 		

@@ -106,8 +106,11 @@ public class ButtonOnClickListener implements OnClickListener {
 			
 			
 			if (et.getText().toString().equals("")) {
-			
-				AlarmDialog.tv.setText(actv.getString(R.string.alarm_dialog_tv));
+				if(!(AlarmDialog.tv == null)) {
+					
+					AlarmDialog.tv.setText(actv.getString(R.string.alarm_dialog_tv));
+					
+				}
 				
 			}//if (AlarmDialog.tv != null)
 			

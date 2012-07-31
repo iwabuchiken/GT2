@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <service android:name="gt2.main.TimerService"></service>
-        <activity android:name="AlarmDialog"></activity>
+        <activity android:name="AlarmDialog" android:excludeFromRecents="false"></activity>
     </application>
 
 </manifest>

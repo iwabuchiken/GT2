@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -200,4 +201,14 @@ public class GT2Activity extends Activity {
 		
 
 	}//protected void onStart()
+
+	@Override
+	protected void onResume() {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onResume();
+		
+		GT2Activity.bt_start.setEnabled(true);
+		GT2Activity.bt_start.setTextColor(Color.BLUE);
+		
+	}//protected void onResume()
 }
