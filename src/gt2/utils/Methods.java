@@ -102,19 +102,13 @@ public class Methods {
 		
 	}//public static enum ItemTags
 
-	public static enum MoveMode {
-		// TIListAdapter.java
-		ON, OFF,
+	public static enum ListItemTags {
+		// timer_history_actv.xml
+		timer_history_actv_lv,
 		
-	}//public static enum MoveMode
-
-	public static enum ButtonModes {
-		// Play
-		READY, FREEZE, PLAY,
-		// Rec
-		REC,
-	}
-
+		
+	}//public static enum ListItemTags
+	
 	public static enum LongClickTags {
 		// MainActivity.java
 		main_activity_list,
@@ -131,7 +125,21 @@ public class Methods {
 		dlg_register_patterns, dlg_register_patterns_gv,
 		
 	}//public static enum DialogOnItemClickListener
-	
+
+	public static enum MoveMode {
+		// TIListAdapter.java
+		ON, OFF,
+		
+	}//public static enum MoveMode
+
+	public static enum ButtonModes {
+		// Play
+		READY, FREEZE, PLAY,
+		// Rec
+		REC,
+	}
+
+
 	//
 	public static final int vibLength_click = 35;
 
@@ -1673,6 +1681,91 @@ public class Methods {
 		return tiList;
 	}//public static TimerItem getTimerItemList_fromDB(Activity actv)
 
+	public static List<TimerItem> getTimerItemList_fromDB(Activity actv, List<Long> idList) {
+		/*----------------------------
+		 * 1. db setup
+		 * 1-1. Table exists?
+		 * 2. Cursor
+		 * 3. Build item objects
+		 * 
+		 * 9. Close db
+			----------------------------*/
+		/*----------------------------
+		 * 1. db setup
+			----------------------------*/
+		DBUtils dbu = new DBUtils(actv, DBUtils.dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		/*----------------------------
+		 * 1-1. Table exists?
+			----------------------------*/
+		boolean res = dbu.tableExists(rdb, DBUtils.tableName_timer_history);
+		
+		if (res == false) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist: " + DBUtils.tableName_timer_history);
+			
+			return null;
+			
+		}//if (res == false)
+		
+		/*----------------------------
+		 * 2. Cursor
+			----------------------------*/
+		String sql = "SELECT * FROM " + DBUtils.tableName_timer_history;
+		
+		Cursor c = rdb.rawQuery(sql, null);
+		
+		actv.startManagingCursor(c);
+		
+		if (c.getCount() < 1) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "c.getCount() < 1");
+			
+			return null;
+			
+		}//if (c.getCount() < 1)
+		
+		/*----------------------------
+		 * 3. Build item objects
+			----------------------------*/
+		List<TimerItem> tiList = new ArrayList<TimerItem>();
+		
+		c.moveToFirst();
+		
+		for (int i = 0; i < c.getCount(); i++) {
+			
+			TimerItem ti = new TimerItem(
+								c.getString(1),
+								c.getLong(2),
+								c.getLong(3)
+								);
+			
+			tiList.add(ti);
+		
+			idList.add(c.getLong(0));
+			
+			c.moveToNext();
+			
+		}//for (int i = 0; i < c.getCount(); i++)
+		
+		/*----------------------------
+		 * 9. Close db
+			----------------------------*/
+		rdb.close();
+		
+		return tiList;
+		
+	}//public static List<TimerItem> getTimerItemList_fromDB(Activity actv, List<Long> idList)
+	
 	public static String convert_longDate2FormattedString(long millSeconds) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -1684,6 +1777,8 @@ public class Methods {
 		return dateFormat.format(new Date(millSeconds));
 		
 	}//public static String convert_longDate2FormattedString(long millSeconds)
+
+
 
 }//public class Methods
 

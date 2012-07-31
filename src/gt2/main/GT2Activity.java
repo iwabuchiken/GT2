@@ -29,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GT2Activity extends Activity {
+
+	static final int REQUEST_CODE_timer_history = 0;
 	
 	// Time
 	public static int timeLeft = 0;
@@ -391,7 +393,9 @@ public class GT2Activity extends Activity {
             	
             	i.setClass(this, TimerHistoryActivity.class);
             	
-            	startActivity(i);
+//            	startActivity(i);
+//            	this.startActivityForResult(i, 0);
+            	startActivityForResult(i, REQUEST_CODE_timer_history);
             	
             	break;//case 0
             
@@ -400,6 +404,27 @@ public class GT2Activity extends Activity {
         
 		return true;
     }//public boolean onOptionsItemSelected(MenuItem item)
+
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		// Log
+		Log.d("GT2Activity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "requestCode: " + requestCode);
+		
+//			if(resultCode==RESULT_OK){
+//				bitmap=loadImage(data.getStringExtra("fn"));
+//				canvas = new Canvas(bitmap);
+//				ImageView iv=(ImageView)this.findViewById(R.id.imageView1);
+//				iv.setImageBitmap(bitmap);
+//			}
+
+		
+	}//protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 
 }

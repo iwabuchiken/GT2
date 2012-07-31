@@ -1,9 +1,11 @@
 package gt2.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gt2.listeners.ButtonOnClickListener;
 import gt2.listeners.ButtonOnTouchListener;
+import gt2.listeners.ListOnItemClickListener;
 import gt2.utils.Methods;
 import gt2.utils.TimerItemListAdapter;
 
@@ -20,6 +22,8 @@ import android.widget.ListView;
 
 public class TimerHistoryActivity extends ListActivity {
 
+	public static List<Long> idList;		//=> Used when going back to GT2Activity
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		/*----------------------------
@@ -62,13 +66,19 @@ public class TimerHistoryActivity extends ListActivity {
 		/*----------------------------
 		 * 1. Get list
 			----------------------------*/
-		List<TimerItem> tiList = Methods.getTimerItemList_fromDB(this);
+		idList = new ArrayList<Long>();
 		
-//		// Log
-//		Log.d("TimerHistoryActivity.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "ti.size(): " + ti.size());
+//		List<TimerItem> tiList = Methods.getTimerItemList_fromDB(this);
+		List<TimerItem> tiList = Methods.getTimerItemList_fromDB(this, idList);
 		
+		// Log
+		Log.d("TimerHistoryActivity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "tiList.size(): " + tiList.size());
+		
+		Log.d("TimerHistoryActivity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "idList.size(): " + idList.size());
 		
 		/*----------------------------
 		 * 2. Prepare adapter
@@ -101,7 +111,18 @@ public class TimerHistoryActivity extends ListActivity {
 		bt_back.setOnTouchListener(new ButtonOnTouchListener(this));
 		bt_back.setOnClickListener(new ButtonOnClickListener(this));
 		
-	}
+		
+		/*----------------------------
+		 * 2. List view
+			----------------------------*/
+		ListView lv = this.getListView();
+		
+		lv.setTag(Methods.ListItemTags.timer_history_actv_lv);
+		
+		lv.setOnItemClickListener(new ListOnItemClickListener(this));
+		
+		
+	}//private void set_listeners()
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
