@@ -123,7 +123,14 @@ public class ButtonOnClickListener implements OnClickListener {
 			
 			if (GT2Activity.stopButtonStatus == false && GT2Activity.timeLeft != 0) {
 				
-				GT2Activity.timeLeft = 0;
+//				GT2Activity.timeLeft = 0;
+				
+				min = (Integer) GT2Activity.sp_min.getSelectedItem();
+				
+				sec = (Integer) GT2Activity.sp_sec.getSelectedItem();
+				
+				GT2Activity.timeLeft = min * 60 + sec;
+
 				
 				Methods.showTime(actv, GT2Activity.timeLeft);
 				

@@ -1370,6 +1370,33 @@ public class Methods {
 		
 	}//public static void showTime(int counter)
 
+	/****************************************
+	 *	showTime(Activity actv, int counter)
+	 * 
+	 * <Caller> 
+	 * 1. Methods.countdown(counter)
+	 * 
+	 * <Desc> 
+	 * 1. "counter" is of seconds, so, you need to multiply the variable
+	 * 			by 1000, getting the time in mill seconds
+	 * 
+	 * <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
+	public static void showTimeToView(Activity actv, int t) {
+		/*----------------------------
+		 * 1. 
+			----------------------------*/
+		// Format
+		SimpleDateFormat form = new SimpleDateFormat("mm:ss");
+		
+		GT2Activity.tv_time.setText(form.format(t * 1000));
+		
+	}//public static void showTime(int counter)
+
 	public static void startTimerService(Context con) {
 		/*----------------------------
 		 * 1. Get time

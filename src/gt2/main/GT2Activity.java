@@ -11,10 +11,14 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GT2Activity extends Activity {
 	
@@ -39,6 +43,8 @@ public class GT2Activity extends Activity {
 
 	public static int[] min_items = {0, 1, 3, 5, 10, 15, 20, 30, 45, 60, 90};
 	public static int[] sec_items = {0, 10, 20, 30, 40, 50};
+
+	
 	
     /** Called when the activity is first created. */
     @Override
@@ -106,6 +112,8 @@ public class GT2Activity extends Activity {
 	private void setup_views() {
 		// TODO 自動生成されたメソッド・スタブ
 		tv_time = (TextView) this.findViewById(R.id.main_tv_time);
+		
+		
 	}
 
 	private void setup_spinner() {
@@ -176,6 +184,72 @@ public class GT2Activity extends Activity {
 		sp_sec.setAdapter(adapterSec);
 
 //		sp_min.setSelection(3);
+		
+		sp_min.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View v,
+					int position, long id) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+				int min = (Integer) parent.getItemAtPosition(position);
+				
+				int sec = (Integer) sp_sec.getSelectedItem();
+				
+				GT2Activity.timeLeft = min * 60 + sec;
+				
+				Methods.showTimeToView(gt2Activity, GT2Activity.timeLeft);
+				
+//				// debug
+//				Toast.makeText(gt2Activity, "min=" + min, 2000).show();
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+			}
+			
+		});
+
+		sp_sec.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View v,
+					int position, long id) {
+				/*----------------------------
+				 * 1. Get min and sec
+				 * 2. Set timeLeft
+				 * 3. Show time
+					----------------------------*/
+				int min = (Integer) sp_min.getSelectedItem();
+				
+				int sec = (Integer) parent.getItemAtPosition(position);
+				
+				/*----------------------------
+				 * 2. Set timeLeft
+					----------------------------*/
+				GT2Activity.timeLeft = min * 60 + sec;
+				
+				/*----------------------------
+				 * 3. Show time
+					----------------------------*/
+				Methods.showTimeToView(gt2Activity, GT2Activity.timeLeft);
+				
+//				// debug
+//				Toast.makeText(gt2Activity, "min=" + min, 2000).show();
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO 自動生成されたメソッド・スタブ
+				
+			}
+			
+		});
+		
 		
 	}//private void setup_spinner()
 

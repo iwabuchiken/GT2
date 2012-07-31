@@ -72,7 +72,7 @@ public class DBUtils extends SQLiteOpenHelper{
 	 * 4. Columns, types
 		----------------------------*/
 	// Main table
-	public static final String[] cols_main_table = {
+	public static final String[] cols_timer_history = {
 		"file_name", "file_path", 
 		"duration", 
 		"date_added", "date_modified",

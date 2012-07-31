@@ -132,7 +132,18 @@ public class AlarmDialog extends Activity {
 		/*----------------------------
 		 * 2. Vibrate
 			----------------------------*/
-		vib.vibrate(new long[]{0, 1000, 500, 1000, 500, 1000}, -1);
+//		vib.vibrate(new long[]{0, 1000, 500, 1000, 500, 1000}, -1);
+
+		SharedPreferences prefs = 
+						this.getSharedPreferences("CountdownTimerPrefs", 0);
+		
+		if (prefs.getBoolean("vibrator", true)) {
+			//
+//			vib.vibrate(new long[]{0, 1000, 500, 1000, 500, 1000}, -1);
+			vib.vibrate(new long[]{0, 1000, 500, 1000, 500, 1000, 500}, 0);
+			
+		}//if (prefs.getBoolean("vibrator", true))
+
 			
 	}//protected void onResume()
 
