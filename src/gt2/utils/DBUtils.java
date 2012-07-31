@@ -47,17 +47,13 @@ public class DBUtils extends SQLiteOpenHelper{
 	SQLiteDatabase db = null;
 	
 	 // DB name
-	final static String dbName = "CM.db";
+	public final static String dbName = "GT2.db";
 	
 	/*----------------------------
 	 * 2. Table names, folder names
 		----------------------------*/
 	// Table names
-	public final static String mainTableName = "main_table";
-	
-	public static String currentTableName = null;
-	
-	public static String baseDirName = "";
+	public final static String tableName_timer_history = "timer_history";
 	
 	/*----------------------------
 	 * 3. Activity, context
@@ -71,24 +67,13 @@ public class DBUtils extends SQLiteOpenHelper{
 	/*----------------------------
 	 * 4. Columns, types
 		----------------------------*/
-	// Main table
 	public static final String[] cols_timer_history = {
-		"file_name", "file_path", 
-		"duration", 
-		"date_added", "date_modified",
-		"file_info", "memos",
-		"located_at"
+		"message", "duration", "created_at"
 	};
 	
-	public static final String[] types_main_table = {
-		"TEXT", "TEXT", 
-//		"TEXT UNIQUE", "TEXT",
-		"INTEGER", 
-		"INTEGER", "INTEGER",
-		"TEXT", "TEXT",
-		"TEXT"
+	public static final String[] types_timer_history = {
+		"TEXT",		"INTEGER", "INTEGER"
 	};
-	
 	
 	/*****************************************************************
 	 * Constructor

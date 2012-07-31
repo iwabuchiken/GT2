@@ -2,12 +2,14 @@ package gt2.main;
 
 import gt2.listeners.ButtonOnClickListener;
 import gt2.listeners.ButtonOnTouchListener;
+import gt2.utils.DBUtils;
 import gt2.utils.Methods;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +58,8 @@ public class GT2Activity extends Activity {
 		 * 3. Spinner
 		 * 4. Set up views
 		 * 5. Listeners
+		 * 
+		 * 6. Database setup
 			----------------------------*/
 		
         super.onCreate(savedInstanceState);
@@ -81,8 +85,38 @@ public class GT2Activity extends Activity {
 			----------------------------*/
 		set_listeners();
 		
+		/*----------------------------
+		 * 6. Database setup
+			----------------------------*/
+		setup_database();
+		
 		
     }//public void onCreate(Bundle savedInstanceState)
+
+	private void setup_database() {
+		/*----------------------------
+		 * 1. Get db
+		 * 2. Create a table
+		 * 
+		 * 9. Close db
+			----------------------------*/
+		DBUtils dbu = new DBUtils(this, DBUtils.dbName);
+		
+		//
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		boolean res = dbu.createTable(
+									wdb, 
+									DBUtils.tableName_timer_history, 
+									DBUtils.cols_timer_history, 
+									DBUtils.types_timer_history);
+		
+		/*----------------------------
+		 * 9. Close db
+			----------------------------*/
+		wdb.close();
+		
+	}//private void setup_database()
 
 	private void set_listeners() {
 		/*----------------------------
