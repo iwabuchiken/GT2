@@ -79,8 +79,14 @@ public class ButtonOnClickListener implements OnClickListener {
 			 * 1. Get time
 			 * 2. "Start" button => set up
 			 * 3. Reset TextView if the message view is empty
+			 * 
+			 * 3-2. Record data
+			 * 
+			 * 4. Call the method
 				----------------------------*/
-			
+			/*----------------------------
+			 * 1. Get time
+				----------------------------*/
 			int min = (Integer) GT2Activity.sp_min.getSelectedItem();
 			int sec = (Integer) GT2Activity.sp_sec.getSelectedItem();
 			
@@ -93,7 +99,9 @@ public class ButtonOnClickListener implements OnClickListener {
 				
 			}//if ()
 			
-			// Buttons
+			/*----------------------------
+			 * 2. "Start" button => set up
+				----------------------------*/
 			GT2Activity.bt_start.setEnabled(false);
 			GT2Activity.bt_start.setTextColor(Color.GRAY);
 			
@@ -114,10 +122,44 @@ public class ButtonOnClickListener implements OnClickListener {
 				
 			}//if (AlarmDialog.tv != null)
 			
+			/*----------------------------
+			 * 3-2. Record data
+			 * 		1. Message
+			 * 		2. duration
+			 * 		3. Created at
+			 * 		4. Record
+				----------------------------*/
+			//
+			String message;
+			
+			if (et.getText().toString().equals("")) {
+				
+				message = actv.getString(R.string.alarm_dialog_tv);
+				
+			} else {//if (et.getText().toString().equals(""))
+
+				message = et.getText().toString();
+				
+			}//if (et.getText().toString().equals(""))
+			
+			// Duration
+//			int duration = GT2Activity.timeLeft;
+			long duration = GT2Activity.timeLeft;
+			
+			long created_at = Methods.getMillSeconds_now();
+			
+			/*----------------------------
+			 * 3-2.4. Record
+				----------------------------*/
+			Methods.recordTimerHistory(actv, message, duration, created_at);
+			
+			/*----------------------------
+			 * 4. Call the method
+				----------------------------*/
 //			Methods.startTimer(actv);
 			Methods.startTimerService(actv);
 			
-			break;
+			break;// case main_bt_start
 
 		case main_bt_stop://------------------------------------------------------
 			
@@ -172,6 +214,12 @@ public class ButtonOnClickListener implements OnClickListener {
 //			AlarmDialog.tv.setText(actv.getString(R.string.alarm_dialog_tv));
 			
 			break;// case alarmdialog_bt_ok
+
+		case timer_history_actv_bt_back://------------------------------------------
+			
+			actv.finish();
+			
+			break;// case timer_history_actv_bt_back
 			
 		}//switch (tag_name)
 		

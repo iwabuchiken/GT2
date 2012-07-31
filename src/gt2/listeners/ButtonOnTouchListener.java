@@ -41,6 +41,8 @@ public class ButtonOnTouchListener implements OnTouchListener {
 			case main_bt_start://------------------------
 			case main_bt_stop:
 			case alarmdialog_bt_ok:
+			case timer_history_actv_bt_back:
+				
 				v.setBackgroundColor(Color.GRAY);
 				
 				break;
@@ -50,9 +52,11 @@ public class ButtonOnTouchListener implements OnTouchListener {
 			
 		case MotionEvent.ACTION_UP://-------------------------------------------
 			switch (tag_name) {
+
 			case main_bt_start://--------------------------
 			case main_bt_stop:
 			case alarmdialog_bt_ok:
+			case timer_history_actv_bt_back:
 
 				v.setBackgroundColor(Color.WHITE);
 				

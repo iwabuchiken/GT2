@@ -4,20 +4,20 @@
     <string name="hello">Hello World, GT2!</string>
     <string name="app_name">GT2</string>
 
-    <!-- main_menu.xml -->
-	    <string name="main_opt_menu_refresh_db">DBリフレッシュ</string>
-	    <string name="main_opt_menu_db_activity">データベース</string>
-	    <string name="main_opt_menu_add_patterns">定型句登録</string>
-	    <string name="main_opt_menu_folder_trees">フォルダ・ツリー</string>
-	    <string name="main_opt_menu_internet">インターネット</string>
-    
     <!-- Generic items -->
 	    <string name="generic_bt_ok">OK</string>
 	    <string name="generic_bt_cancel">キャンセル</string>
 	    <string name="generic_tv_confirm">確認</string>
 	    <string name="generic_tv_menu">メニュー</string>
 	    <string name="generic_tv_register">登録</string>
+	    <string name="generic_bt_back">戻る</string>
     
+    <!-- main_menu.xml -->
+	    <string name="main_opt_menu_refresh_db">DBリフレッシュ</string>
+	    <string name="main_opt_menu_db_activity">データベース</string>
+	    <string name="main_opt_menu_add_patterns">定型句登録</string>
+	    <string name="main_opt_menu_folder_trees">フォルダ・ツリー</string>
+	    <string name="main_opt_menu_internet">インターネット</string>
     
     <!-- main.xml -->
 	    <string name="main_tv_time">00:00</string>
@@ -31,4 +31,11 @@
     <!-- alarmdialog.xml -->
     	<string name="alarm_dialog_bt">OK</string>
     	<string name="alarm_dialog_tv">時間です</string>
+    	
+    <!-- menu_main.xml -->
+    	<string name="gt2actv_menu_history">タイマー履歴</string>
+    	
+    <!-- timer_history_actv.xml -->
+    	<string name="timer_history_actv"></string>
+    	
 </resources>

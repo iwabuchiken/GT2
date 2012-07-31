@@ -6,6 +6,7 @@ import gt2.listeners.DialogButtonOnTouchListener;
 import gt2.main.AlarmDialog;
 import gt2.main.GT2Activity;
 import gt2.main.R;
+import gt2.main.TimerItem;
 import gt2.main.TimerService;
 
 import java.io.BufferedWriter;
@@ -14,6 +15,7 @@ import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,6 +91,9 @@ public class Methods {
 		
 		// alarmdialog.xml
 		alarmdialog_bt_ok,
+		
+		// timer_history_actv.xml
+		timer_history_actv_bt_back,
 
 	}//public static enum ButtonTags
 	
@@ -270,6 +275,27 @@ public class Methods {
 		return d.getTime();
 		
 	}//private long getMillSeconds(int year, int month, int date)
+
+	/****************************************
+	 *	getMillSeconds_now()
+	 * 
+	 * <Caller> 
+	 * 1. ButtonOnClickListener # case main_bt_start
+	 * 
+	 * <Desc> 1. <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
+	public static long getMillSeconds_now() {
+		
+		Calendar cal = Calendar.getInstance();
+		
+		return cal.getTime().getTime();
+		
+	}//private long getMillSeconds_now(int year, int month, int date)
+
 
 	public static List<String> getTableList(SQLiteDatabase wdb) {
 		//=> source: http://stackoverflow.com/questions/4681744/android-get-list-of-tables : "Just had to do the same. This seems to work:"
@@ -1503,6 +1529,161 @@ public class Methods {
 			);//timer.schedule()
 		
 	}//public static void startTimer(Context mContext)
+
+	/****************************************
+	 * method_name(param_type)
+	 * 
+	 * <Caller> 
+	 * 1. ButtonOnClickListener # case main_bt_start
+	 * 
+	 * <Desc> 1. <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
+	public static void recordTimerHistory(Activity actv, String message, long duration,
+			long created_at) {
+		/*----------------------------
+		 * 1. db
+		 * 
+			----------------------------*/
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "message: " + message + " / " + "dur: " + duration + " / " + created_at);
+		
+		/*----------------------------
+		 * 1. db
+		 * 2. Prepare data
+		 * 3. Insert data
+		 * 
+		 * 9. Close db
+			----------------------------*/
+		DBUtils dbu = new DBUtils(actv, DBUtils.dbName);
+		
+		//
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		/*----------------------------
+		 * 2. Prepare data
+			----------------------------*/
+		Object[] values = {message, duration, created_at};
+		
+		/*----------------------------
+		 * 3. Insert data
+			----------------------------*/
+		boolean res = dbu.insertData_TimerItem(
+									wdb, 
+									DBUtils.tableName_timer_history, 
+									DBUtils.cols_timer_history, 
+									values);
+		
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "res: " + res);
+		
+		/*----------------------------
+		 * 9. Close db
+			----------------------------*/
+		wdb.close();
+		
+	}//public static void recordTimerHistory()
+
+	public static List<TimerItem> getTimerItemList_fromDB(Activity actv) {
+		/*----------------------------
+		 * 1. db setup
+		 * 1-1. Table exists?
+		 * 2. Cursor
+		 * 3. Build item objects
+		 * 
+		 * 9. Close db
+			----------------------------*/
+		/*----------------------------
+		 * 1. db setup
+			----------------------------*/
+		DBUtils dbu = new DBUtils(actv, DBUtils.dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		/*----------------------------
+		 * 1-1. Table exists?
+			----------------------------*/
+		boolean res = dbu.tableExists(rdb, DBUtils.tableName_timer_history);
+		
+		if (res == false) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist: " + DBUtils.tableName_timer_history);
+			
+			return null;
+			
+		}//if (res == false)
+		
+		/*----------------------------
+		 * 2. Cursor
+			----------------------------*/
+		String sql = "SELECT * FROM " + DBUtils.tableName_timer_history;
+		
+		Cursor c = rdb.rawQuery(sql, null);
+		
+		actv.startManagingCursor(c);
+		
+		if (c.getCount() < 1) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "c.getCount() < 1");
+			
+			return null;
+			
+		}//if (c.getCount() < 1)
+		
+		/*----------------------------
+		 * 3. Build item objects
+			----------------------------*/
+		List<TimerItem> tiList = new ArrayList<TimerItem>();
+		
+		c.moveToFirst();
+		
+		for (int i = 0; i < c.getCount(); i++) {
+			
+			TimerItem ti = new TimerItem(
+								c.getString(1),
+								c.getLong(2),
+								c.getLong(3)
+								);
+			
+			tiList.add(ti);
+			
+			c.moveToNext();
+			
+		}//for (int i = 0; i < c.getCount(); i++)
+		
+		/*----------------------------
+		 * 9. Close db
+			----------------------------*/
+		rdb.close();
+		
+		return tiList;
+	}//public static TimerItem getTimerItemList_fromDB(Activity actv)
+
+	public static String convert_longDate2FormattedString(long millSeconds) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		
+//		Calendar cal = Calendar.getInstance();
+
+		//		return dateFormat.format(cal.getTime());
+		
+		return dateFormat.format(new Date(millSeconds));
+		
+	}//public static String convert_longDate2FormattedString(long millSeconds)
 
 }//public class Methods
 

@@ -2,15 +2,23 @@ package gt2.main;
 
 import gt2.listeners.ButtonOnClickListener;
 import gt2.listeners.ButtonOnTouchListener;
+import gt2.utils.DBUtils;
 import gt2.utils.Methods;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -44,7 +52,7 @@ public class GT2Activity extends Activity {
 	public static int[] min_items = {0, 1, 3, 5, 10, 15, 20, 30, 45, 60, 90};
 	public static int[] sec_items = {0, 10, 20, 30, 40, 50};
 
-	
+	public static Vibrator vib;	
 	
     /** Called when the activity is first created. */
     @Override
@@ -56,6 +64,8 @@ public class GT2Activity extends Activity {
 		 * 3. Spinner
 		 * 4. Set up views
 		 * 5. Listeners
+		 * 5-2. Vibrator
+		 * 6. Database setup
 			----------------------------*/
 		
         super.onCreate(savedInstanceState);
@@ -81,8 +91,70 @@ public class GT2Activity extends Activity {
 			----------------------------*/
 		set_listeners();
 		
+		/*----------------------------
+		 * 5-2. Vibrator
+			----------------------------*/
+		vib = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+		
+		/*----------------------------
+		 * 6. Database setup
+			----------------------------*/
+//		setup_database();
+		
 		
     }//public void onCreate(Bundle savedInstanceState)
+
+	private void setup_database() {
+		/*----------------------------
+		 * 1. Get db
+		 * 2. Create a table
+		 * 3. Query
+		 * 
+		 * 9. Close db
+			----------------------------*/
+		DBUtils dbu = new DBUtils(this, DBUtils.dbName);
+		
+		//
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		boolean res = dbu.createTable(
+									wdb, 
+									DBUtils.tableName_timer_history, 
+									DBUtils.cols_timer_history, 
+									DBUtils.types_timer_history);
+		
+		/*----------------------------
+		 * 3. Query
+			----------------------------*/
+		String s = "SELECT * FROM " + DBUtils.tableName_timer_history;
+		
+		Cursor c = wdb.rawQuery(s, null);
+		
+		this.startManagingCursor(c);
+		
+		// Log
+		Log.d("GT2Activity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "c.getCount(): " + c.getCount());
+		
+		c.moveToFirst();
+		
+		String message = c.getString(1);
+		long dur = c.getLong(2);
+		long at = c.getLong(3);
+		
+		// Log
+		Log.d("GT2Activity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "msg: " + message + "/" + "dur: " + dur + "/" + "at: " + at);
+		
+		
+		/*----------------------------
+		 * 9. Close db
+			----------------------------*/
+		wdb.close();
+		
+	}//private void setup_database()
 
 	private void set_listeners() {
 		/*----------------------------
@@ -285,4 +357,49 @@ public class GT2Activity extends Activity {
 		GT2Activity.bt_start.setTextColor(Color.BLUE);
 		
 	}//protected void onResume()
+
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		// 
+		MenuInflater mi = getMenuInflater();
+		mi.inflate(R.menu.menu_main, menu);
+		
+		return super.onCreateOptionsMenu(menu);
+	}//public boolean onCreateOptionsMenu(Menu menu)
+
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+		/*----------------------------
+		 * Steps
+		 * 1. 
+			----------------------------*/
+		
+		vib.vibrate(Methods.vibLength_click);
+		
+        switch (item.getItemId()) {
+			/*----------------------------
+			 * Steps
+			 * 1. 
+			 * 9. Default
+				----------------------------*/
+        	/*----------------------------
+			 * 1. case 0	=> 
+				----------------------------*/
+            case R.id.gt2actv_menu_history://--------------------------------
+            	
+            	Intent i = new Intent();
+            	
+            	i.setClass(this, TimerHistoryActivity.class);
+            	
+            	startActivity(i);
+            	
+            	break;//case 0
+            
+            	
+        }//switch (item.getItemId())
+        
+		return true;
+    }//public boolean onOptionsItemSelected(MenuItem item)
+
+
 }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	
+	android:id="@+id/list_row_LL_root"
+	
+	android:orientation="vertical"
+	
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+
+    android:layout_marginBottom="10dp"	
+    
+    
+	android:minHeight="70dp"
+	
+	>
+
+    <TextView
+        android:id="@+id/list_row_timer_history_tv_message"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:paddingBottom="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="3dp"
+        
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        
+        android:textSize="20dp" 
+        android:textColor="@color/black"
+        android:background="@color/white"
+        
+        />
+
+    <LinearLayout
+        
+        android:id="@+id/list_row_timer_history_LL_2"
+        
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        
+        >
+
+        <TextView
+            android:id="@+id/list_row_timer_history_tv_duration"
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:layout_weight="1"
+            
+            android:gravity="center"
+            
+            android:paddingBottom="3dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="3dp"
+            
+            android:text="00:00"
+            android:textSize="20dp" 
+            
+            />
+
+        <TextView
+            android:id="@+id/list_row_timer_history_tv_created_at"
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:layout_weight="1"
+            
+            android:paddingBottom="3dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="3dp"
+            
+            android:textSize="20dp"
+            
+            />
+    </LinearLayout>
+
+</LinearLayout>

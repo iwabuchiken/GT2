@@ -47,17 +47,13 @@ public class DBUtils extends SQLiteOpenHelper{
 	SQLiteDatabase db = null;
 	
 	 // DB name
-	final static String dbName = "CM.db";
+	public final static String dbName = "GT2.db";
 	
 	/*----------------------------
 	 * 2. Table names, folder names
 		----------------------------*/
 	// Table names
-	public final static String mainTableName = "main_table";
-	
-	public static String currentTableName = null;
-	
-	public static String baseDirName = "";
+	public final static String tableName_timer_history = "timer_history";
 	
 	/*----------------------------
 	 * 3. Activity, context
@@ -71,24 +67,13 @@ public class DBUtils extends SQLiteOpenHelper{
 	/*----------------------------
 	 * 4. Columns, types
 		----------------------------*/
-	// Main table
 	public static final String[] cols_timer_history = {
-		"file_name", "file_path", 
-		"duration", 
-		"date_added", "date_modified",
-		"file_info", "memos",
-		"located_at"
+		"message", "duration", "created_at"
 	};
 	
-	public static final String[] types_main_table = {
-		"TEXT", "TEXT", 
-//		"TEXT UNIQUE", "TEXT",
-		"INTEGER", 
-		"INTEGER", "INTEGER",
-		"TEXT", "TEXT",
-		"TEXT"
+	public static final String[] types_timer_history = {
+		"TEXT",		"INTEGER", "INTEGER"
 	};
-	
 	
 	/*****************************************************************
 	 * Constructor
@@ -400,7 +385,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		}//try
 	}//public insertData(String tableName, String[] columnNames, String[] values)
 
-	public boolean insertData(SQLiteDatabase db, String tableName, 
+	public boolean insertData_TimerItem(SQLiteDatabase db, String tableName, 
 			String[] columnNames, Object[] values) {
 		/*----------------------------
 		* 1. Insert data
@@ -412,23 +397,13 @@ public class DBUtils extends SQLiteOpenHelper{
 			// ContentValues
 			ContentValues val = new ContentValues();
 			
+//			"message", "duration", "created_at"
+			
 			// Put values
-			val.put(columnNames[0], (String) values[0]);		// file_name
-			val.put(columnNames[1], (String) values[1]);		// file_path
+			val.put(columnNames[0], (String) values[0]);		// message
+			val.put(columnNames[1], (Long) values[1]);		// duration
 			
-			val.put(columnNames[2], (Long) values[2]);		// duration
-			
-			val.put(columnNames[3], (Long) values[3]);		// date_added
-			val.put(columnNames[4], (Long) values[4]);		// date_modified
-			
-			val.put(columnNames[5], (String) values[5]);		// file_info
-			val.put(columnNames[6], (String) values[6]);		// memos
-			
-			val.put(columnNames[7], (String) values[7]);		// located_at
-			
-//			for (int i = 0; i < columnNames.length; i++) {
-//			val.put(columnNames[i], values[i]);
-//			}//for (int i = 0; i < columnNames.length; i++)
+			val.put(columnNames[2], (Long) values[2]);		// created_at
 			
 			// Insert data
 			db.insert(tableName, null, val);

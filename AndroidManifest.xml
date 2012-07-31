@@ -26,6 +26,7 @@
             android:excludeFromRecents="true">
             
         </activity>
+        <activity android:name=".TimerHistoryActivity"></activity>
     </application>
 
 </manifest>
