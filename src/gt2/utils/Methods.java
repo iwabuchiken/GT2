@@ -1681,6 +1681,18 @@ public class Methods {
 		return tiList;
 	}//public static TimerItem getTimerItemList_fromDB(Activity actv)
 
+	/****************************************
+	 *
+	 * 
+	 * <Caller>
+	 * 1. TimerHistoryActivity.set_list()
+	 * 
+	 * <Desc> 1. <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
 	public static List<TimerItem> getTimerItemList_fromDB(Activity actv, List<Long> idList) {
 		/*----------------------------
 		 * 1. db setup

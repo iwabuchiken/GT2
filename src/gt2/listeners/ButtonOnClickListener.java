@@ -90,7 +90,8 @@ public class ButtonOnClickListener implements OnClickListener {
 			int min = (Integer) GT2Activity.sp_min.getSelectedItem();
 			int sec = (Integer) GT2Activity.sp_sec.getSelectedItem();
 			
-			if (min == 0 && sec == 0) {
+//			if (min == 0 && sec == 0) {
+			if (GT2Activity.timeLeft == 0) {
 				
 				// debug
 				Toast.makeText(actv, "ŽžŠÔ‚ª‘I‘ð‚³‚ê‚Ä‚Ü‚¹‚ñ", 2000).show();

@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,12 +39,15 @@ public class GT2Activity extends Activity {
 	// Time set
 	public static int timeSet = -1;
 
+	// Views
 	public static TextView tv_time;
 	public static Button bt_start;
 	public static Button bt_stop; 
 	
 	public static Spinner sp_min;
 	public static Spinner sp_sec;
+	
+	public static EditText et_message;
 	
 	// Activity
 	public static Activity gt2Activity;
@@ -184,10 +188,14 @@ public class GT2Activity extends Activity {
 	}//private void set_listeners()
 
 	private void setup_views() {
-		// TODO 自動生成されたメソッド・スタブ
+		/*----------------------------
+		 * 1. TextView
+		 * 2. EditText
+			----------------------------*/
+		
 		tv_time = (TextView) this.findViewById(R.id.main_tv_time);
 		
-		
+		et_message = (EditText) this.findViewById(R.id.main_et_message);
 	}
 
 	private void setup_spinner() {
@@ -416,12 +424,120 @@ public class GT2Activity extends Activity {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "requestCode: " + requestCode);
 		
-//			if(resultCode==RESULT_OK){
-//				bitmap=loadImage(data.getStringExtra("fn"));
-//				canvas = new Canvas(bitmap);
-//				ImageView iv=(ImageView)this.findViewById(R.id.imageView1);
-//				iv.setImageBitmap(bitmap);
-//			}
+		if (requestCode == this.REQUEST_CODE_timer_history) {
+			
+			if(resultCode==RESULT_OK) {
+				/*----------------------------
+				 * 1. Get item id delivered by intent
+				 * 2. Exec query
+				 * 3. Set data to views and vars
+				 * 
+				 * 9. Close db
+					----------------------------*/
+				
+				/*----------------------------
+				 * "itemId" => an id number in the database, so, when using in
+				 * 					arrays as an index, you need to decrement this value by 1
+				 * 					(, which you may be already aware of. Yeah. Forbear with me)
+					----------------------------*/
+				/*----------------------------
+				 * 1. Get item id delivered by intent
+					----------------------------*/
+				long itemId = data.getLongExtra("chosenFileId", -1);
+				
+				// Log
+				Log.d("GT2Activity.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "itemId: " + itemId);
+				
+				
+				/*----------------------------
+				 * 2. Exec query
+					----------------------------*/
+				DBUtils dbu = new DBUtils(this, DBUtils.dbName);
+				
+				SQLiteDatabase rdb = dbu.getReadableDatabase();
+				
+				String sql = "SELECT * FROM " + DBUtils.tableName_timer_history +
+//						" WHERE _id = '?'";
+//						" WHERE " + android.provider.BaseColumns._ID + " = '?'";
+						" WHERE " + android.provider.BaseColumns._ID + " = " + 
+//						String.valueOf(itemId - 1);
+						String.valueOf(itemId);
+						
+//				android.provider.BaseColumns._ID
+//				String[] args = {String.valueOf(itemId)};
+				
+//				Cursor c = rdb.rawQuery(sql, args);
+				Cursor c = rdb.rawQuery(sql, null);
+
+				this.startManagingCursor(c);
+				
+				// Log
+				Log.d("GT2Activity.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "c.getCount(): " + c.getCount());
+				
+				if (c.getCount() < 1) {
+					
+					rdb.close();
+					
+					return;
+					
+				}//if (c.getCount() < 1)
+				
+				/*----------------------------
+				 * 3. Set data to views and vars
+				 * 		1. Move to first
+				 * 		2. Get data
+				 * 		3. Set data
+					----------------------------*/
+				c.moveToFirst();
+				
+				String message = c.getString(1);
+				long dur = c.getLong(2);
+				
+				// Log
+				Log.d("GT2Activity.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "msg: " + message + "/" + "dur: " + dur);
+				 
+				/*----------------------------
+				 * 3.3. Set data
+					----------------------------*/
+				GT2Activity.timeLeft = (int) dur;
+				
+				Methods.showTime(this, GT2Activity.timeLeft);
+				
+				et_message.setText(message);
+				et_message.setSelection(message.length());
+				
+				/*----------------------------
+				 * 9. Close db
+					----------------------------*/
+				rdb.close();
+				
+//				// Log
+//				Log.d("GT2Activity.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "itemId: " + itemId);
+				
+			} else {
+				// Log
+				Log.d("GT2Activity.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "resultCode !=RESULT_OK");
+				
+			}//if(resultCode==RESULT_OK)
+			
+		}//if (requestCode == this.REQUEST_CODE_timer_history)
+		
+
 
 		
 	}//protected void onActivityResult(int requestCode, int resultCode, Intent data)

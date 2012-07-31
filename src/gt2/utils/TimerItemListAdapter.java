@@ -36,10 +36,10 @@ public class TimerItemListAdapter extends ArrayAdapter<TimerItem> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		// Log
-		Log.d("TimerItemListAdapter.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "message");
+//		// Log
+//		Log.d("TimerItemListAdapter.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "message");
 		
 		
 		/*----------------------------
